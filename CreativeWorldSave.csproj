@@ -73,9 +73,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Plugin.cs" />
+    <Compile Include="CreativeWorldSave\Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SaveConstructor.cs" />
+    <Compile Include="CreativeWorldSave\SaveConstructor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

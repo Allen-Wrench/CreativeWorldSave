@@ -17,6 +17,7 @@ using VRage.Game.Voxels;
 using Sandbox;
 using System.IO.Compression;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace CreativeWorldSave
 {
@@ -60,10 +61,10 @@ namespace CreativeWorldSave
 			try
 			{
 				MyObjectBuilder_Checkpoint checkpoint = MySession.Static.GetCheckpoint(saveName);
-				MyObjectBuilder_Gps gps;
-				checkpoint.Gps.Dictionary.TryGetValue(MySession.Static.LocalPlayerId, out gps);
+				checkpoint.Gps.Dictionary.TryGetValue(MySession.Static.LocalPlayerId, out MyObjectBuilder_Gps gps);
 				checkpoint.Gps.Dictionary.Clear();
-				checkpoint.Gps.Dictionary.Add(MySession.Static.LocalPlayerId, gps);
+				if (gps != null)
+					checkpoint.Gps.Dictionary.Add(MySession.Static.LocalPlayerId, gps);
 				checkpoint.Factions = new MyObjectBuilder_FactionCollection();
 				checkpoint.Factions.Factions = new List<MyObjectBuilder_Faction>();
 				checkpoint.Factions.Players = new VRage.Serialization.SerializableDictionary<long, long>(new Dictionary<long, long>());
@@ -71,7 +72,10 @@ namespace CreativeWorldSave
 				checkpoint.Factions.Relations = new List<MyObjectBuilder_FactionRelation>();
 				checkpoint.Factions.RelationsWithPlayers = new List<MyObjectBuilder_PlayerFactionRelation>();
 				checkpoint.Factions.Requests = new List<MyObjectBuilder_FactionRequests>();
+				var id = checkpoint.Identities.Find(i => i.IdentityId == MySession.Static.LocalPlayerId);
 				checkpoint.Identities.Clear();
+				if (id != default)
+					checkpoint.Identities.Add(id);
 				for (int i = checkpoint.SessionComponents.Count - 1; i >= 0; i--)
 				{
 					if (checkpoint.SessionComponents[i] is MyObjectBuilder_BankingSystem)

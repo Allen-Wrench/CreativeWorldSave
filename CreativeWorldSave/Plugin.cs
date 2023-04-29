@@ -32,14 +32,15 @@ namespace CreativeWorldSave
 		public void OnLoading() 
 		{
 			MySession.Static.OnReady += AddCommand;
+			MySession.OnLoading -= OnLoading;
 		}
 
 		public void AddCommand()
 		{
 			MySession.Static.OnReady -= AddCommand;
-			MySession.Static.ChatSystem.CommandSystem.ScanAssemblyForCommands(Assembly.GetExecutingAssembly());
-			if (MySession.Static.ChatSystem.CommandSystem.ChatCommands.ContainsKey("/creativesave"))
+			if (!MySession.Static.ChatSystem.CommandSystem.ChatCommands.ContainsKey("/creativesave"))
 			{
+				MySession.Static.ChatSystem.CommandSystem.ScanAssemblyForCommands(Assembly.GetExecutingAssembly());
 				MyLog.Default.Info("dude's Creative World Save plugin. Chat command added: /creativesave");
 			}
 		}

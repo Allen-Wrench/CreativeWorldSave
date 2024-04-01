@@ -10,6 +10,8 @@ using HarmonyLib;
 using Sandbox.Game.Localization;
 using Sandbox.Game.Screens;
 using Sandbox.Graphics.GUI;
+using Sandbox.Graphics;
+using Sandbox.Game.Gui;
 
 namespace CreativeWorldSave
 {
@@ -17,7 +19,7 @@ namespace CreativeWorldSave
 	{
 		public void Init(object gameInstance)
 		{
-			new Harmony("CreativeSave").Patch(AccessTools.Method("Sandbox.Game.Gui.MyGuiScreenPlayers:profileButton_ButtonClicked"), new HarmonyMethod(typeof(CreativeSavePlugin), "ButtonClick"));
+			new Harmony("CreativeSave").Patch(AccessTools.Method("Sandbox.Engine.Networking.MyGameService:OpenOverlayUser"), new HarmonyMethod(typeof(CreativeSavePlugin), "ButtonClick"));
 			//MySession.OnLoading += OnLoading;
 		}
 
@@ -32,14 +34,15 @@ namespace CreativeWorldSave
 
 		public static bool ButtonClick()
 		{
-			MyGuiScreenDialogText myGuiScreenDialogText = new MyGuiScreenDialogText(string.Empty, MyStringId.GetOrCompute("Input filename for new save:"), false);
-			myGuiScreenDialogText.OnConfirmed += delegate (string argument)
-			{
+			//MyGuiScreenDialogText myGuiScreenDialogText = new MyGuiScreenDialogText(string.Empty, MyStringId.GetOrCompute("Input filename for new save:"), false);
+			//myGuiScreenDialogText.OnConfirmed += delegate (string argument)
+			//{
 				MyLog.Default.Info("Saving creative world...");
 				MyAPIGateway.Utilities.ShowMessage("Creative World Save", "Constructing offline creative world...");
-				SaveConstructor.SaveWorldAsync(argument);
-			};
-			MyGuiSandbox.AddScreen(myGuiScreenDialogText);
+				SaveConstructor.SaveWorldAsync(MySession.Static.Name);
+			//};
+			//MyScreenManager.GetFirstScreenOfType<MyGuiScreenPlayers>().CloseScreen();
+			//MyGuiSandbox.AddScreen(myGuiScreenDialogText);
 			return false;
 		}
 

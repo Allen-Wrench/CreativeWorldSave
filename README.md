@@ -18,5 +18,5 @@ In order to prevent any unintended shenanigans, the save files are constructed f
 
 Let me know via a github issue if you run into any problems, and dont forget to include the log!
 
-### Jan 2024 Update: 
-*Replaced chat command with a simple popup window. To save the current world, open the players screen (F3) and click the Profile button. It should display an input box where you can enter the filename for the save.*
+### Usage Directions: 
+To save the current world, open the players screen (F3) and click the Profile button. A new save will be created with the same name as the server you are connected to.
